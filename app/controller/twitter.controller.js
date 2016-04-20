@@ -14,7 +14,7 @@ module.exports = (function(){
         //function to get the best time to tweet  
         that.getBestTime = function(req,res,next){
             let tweets=[];
-            
+            let responseTest = {};
             var reqString = {};
             
             if(req.body.data.username !== undefined && req.body.data.username.length > 0 ){
@@ -42,6 +42,7 @@ module.exports = (function(){
                               })
                               .then(function (result) {
                                  tweets = tweets.concat(result.data);
+                                 responseTest = result;
                                  callback();
                               });
                         
@@ -50,8 +51,15 @@ module.exports = (function(){
                                  debug('Error in final');
                                  next(err); 
                             }
-                            
-                            res.json(helper.bestTime(tweets));
+                            //to check whethere rate limit has been exceeded or not
+                            if(responseTest.data.errors!=undefined&&responseTest.data.errors[0].code===88){
+                                debug(responseTest.data.errors[0]);
+                                res.json({
+                                    error:'88'
+                                });
+                            }else{
+                                res.json(helper.bestTime(tweets));
+                            }
                         }
                       );
                                
