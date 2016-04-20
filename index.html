@@ -103,7 +103,7 @@ body {
                     </div>
                 </div>
             </div>
-           <p id="error"></p>
+           <p id="error"><b>Some Error Occured. Please try again</b></p>
        </div>
     </div>
   </div>
@@ -132,10 +132,12 @@ body {
         $('#loading').hide();
         $('#login-form').show();
         $('#result').hide();
+        $('#error').hide();
     };
 	$(document).ready(function() { 
         $('#loading').hide();
         $('#result').hide();
+        $('#error').hide();
         var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
         $('#form').submit(function(){
             $('#loading').show();
@@ -156,6 +158,7 @@ body {
                 $('#loading').hide();
                 $('#login-form').hide();
                 $('#result').show();
+                $('#error').hide();
                 $('#form-submit').removeClass('disabled');
                 //console.log(data);
                 var bestDay = data.bestDay.maxIndex;
@@ -165,7 +168,7 @@ body {
                 $('#loading').hide();
                 $('#form-submit').removeClass('disabled');
                 console.log(data);
-                $('#error').html("<b>Some Error Occured. Please try again</b>");
+                $('#error').show();
             });
             return false;
         });
