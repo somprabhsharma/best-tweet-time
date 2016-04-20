@@ -162,7 +162,11 @@ body {
                 //console.log(data);
                 var bestDay = data.bestDay.maxIndex;
                 var bestTime = data.bestTime.maxIndex;
-                $('#msg').html(days[bestDay]+" and between "+bestTime+":00 to "+(bestTime+1)+":00");
+		var currentDate = new Date();
+		var bestDate = new Date(currentDate);
+		bestDate.setDate(currentDate.getDate()+7-currentDate.getDay()+bestDay);
+		var bestDateString = bestDate.toString().slice(0,10);
+                $('#msg').html(bestDateString+" and time "+bestTime+":00 to "+(bestTime+1)+":00");
             }).fail(function(data) {
                 $('#loading').hide();
                 $('#form-submit').removeClass('disabled');
