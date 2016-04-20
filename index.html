@@ -142,6 +142,7 @@ body {
         $('#form').submit(function(){
             if($('#username').val().length==0 && $('#userid').val()==0){
               $('#validationError').html('<span style="color:red">Either username or twitterID is required</span>');
+              $('#error').hide();
             } else {
 			        $('#validationError').html('');
               $('#loading').show();
