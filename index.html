@@ -163,6 +163,7 @@ body {
                 $('#msg').html(days[bestDay]+" and between "+bestTime+":00 to "+(bestTime+1)+":00");
             }).fail(function(data) {
                 $('#loading').hide();
+                $('#form-submit').removeClass('disabled');
                 console.log(data);
                 $('#error').html("<b>Some Error Occured. Please try again</b>");
             });
