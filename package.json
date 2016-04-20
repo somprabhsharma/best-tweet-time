@@ -5,7 +5,7 @@
   "description": "Twitter API Server",
   "private": true,
   "scripts": {
-    "start": "DEBUG='main:*' ./node_modules/.bin/nodemon app.js"
+    "start": "./node_modules/.bin/DEBUG='main:*' ./node_modules/.bin/nodemon app.js"
   },
   "dependencies": {
     "async": "^2.0.0-rc.3",
