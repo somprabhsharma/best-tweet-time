@@ -1,0 +1,25 @@
+{
+  "name": "twittersom",
+  "version": "1.0.0",
+  "author": "Som Prabh Sharma <somprabhsharma@outlook.com>",
+  "description": "Twitter API Server",
+  "private": true,
+  "scripts": {
+    "start": "DEBUG='main:*' ./node_modules/.bin/nodemon app.js"
+  },
+  "dependencies": {
+    "async": "^2.0.0-rc.3",
+    "body-parser": "^1.14.2",
+    "cors": "^2.7.1",
+    "debug": "^2.2.0",
+    "express": "^4.13.4",
+    "jade": "^1.11.0",
+    "morgan": "^1.6.1",
+    "twit": "^2.2.3"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "jshint": "2.9.1",
+    "nodemon": "1.8.1"
+  }
+}
