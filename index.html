@@ -38,6 +38,7 @@ body {
             <form id="form">    
                 <div class="row margin">                  
                     <p class="center login-form-text">Please Enter Your Twitter Username or ID</p>
+                    <p id="validationError"></p>   
                 </div>
                 <div class="row margin">
                   <div class="input-field col s12">
@@ -133,46 +134,51 @@ body {
         $('#result').hide();
         $('#error').hide();
     };
-	$(document).ready(function() { 
+	  $(document).ready(function() { 
         $('#loading').hide();
         $('#result').hide();
         $('#error').hide();
         var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
         $('#form').submit(function(){
-            $('#loading').show();
-            $('#form-submit').addClass('disabled');
-            var formData = {
-                "data":{
-                    "username":$('#username').val(),
-                    "userid":$('#userid').val(),
-                }
-            };
-            $.ajax({
-                type        : 'POST',
-                url         : 'https://crowdfiretest-somprabhsharma1.c9users.io/getBestTime',
-                data        :  formData,
-                dataType    : 'json',
-                encode      : true
-            }).done(function(data) {
-                $('#loading').hide();
-                $('#login-form').hide();
-                $('#result').show();
-                $('#error').hide();
-                $('#form-submit').removeClass('disabled');
-                //console.log(data);
-                var bestDay = data.bestDay.maxIndex;
-                var bestTime = data.bestTime.maxIndex;
-		var currentDate = new Date();
-		var bestDate = new Date(currentDate);
-		bestDate.setDate(currentDate.getDate()+7-currentDate.getDay()+bestDay);
-		var bestDateString = bestDate.toString().slice(0,10);
-                $('#msg').html(bestDateString+" and time "+bestTime+":00 to "+(bestTime+1)+":00");
-            }).fail(function(data) {
-                $('#loading').hide();
-                $('#form-submit').removeClass('disabled');
-                console.log(data);
-                $('#error').show();
-            });
+            if($('#username').val().length==0 && $('#userid').val()==0){
+              $('#validationError').html('<span style="color:red">Either username or twitterID is required</span>');
+            } else {
+			        $('#validationError').html('');
+              $('#loading').show();
+              $('#form-submit').addClass('disabled');
+              var formData = {
+                  "data":{
+                      "username":$('#username').val(),
+                      "userid":$('#userid').val(),
+                  }
+              };
+              $.ajax({
+                  type        : 'POST',
+                  url         : 'https://crowdfiretest-somprabhsharma1.c9users.io/getBestTime',
+                  data        :  formData,
+                  dataType    : 'json',
+                  encode      : true
+              }).done(function(data) {
+                  $('#loading').hide();
+                  $('#login-form').hide();
+                  $('#result').show();
+                  $('#error').hide();
+                  $('#form-submit').removeClass('disabled');
+                  //console.log(data);
+                  var bestDay = data.bestDay.maxIndex;
+                  var bestTime = data.bestTime.maxIndex;
+              		var currentDate = new Date();
+              		var bestDate = new Date(currentDate);
+              		bestDate.setDate(currentDate.getDate()+7-currentDate.getDay()+bestDay);
+              		var bestDateString = bestDate.toString().slice(0,10);
+                  $('#msg').html(bestDateString+" and time "+bestTime+":00 to "+(bestTime+1)+":00");
+              }).fail(function(data) {
+                  $('#loading').hide();
+                  $('#form-submit').removeClass('disabled');
+                  console.log(data);
+                  $('#error').show();
+              });
+            }
             return false;
         });
         
