@@ -30,6 +30,7 @@ module.exports = (function(){
                         next(err); 
                   })
                   .then(function (result) {
+                        // limited to 10 followers only, as twitter API only allows 180 request per 15 mins
                         const users = result.data.ids.slice(0,10);
              
                         // fetching tweets for each followers        
