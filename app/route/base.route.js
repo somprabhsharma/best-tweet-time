@@ -8,7 +8,7 @@ const route = function(app){
     });
     
     app.post('/getBestTime',twitter.getBestTime);
-    app.post('/getTweets',twitter.getTweets);
+    
 
 };
 
