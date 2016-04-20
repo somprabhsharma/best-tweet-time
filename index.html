@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Input Form - CrowdFire Assigment</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+
+<style type="text/css">
+html,
+body {
+    height: 100%;
+}
+html {
+    display: table;
+    margin: auto;
+}
+body {
+    display: table-cell;
+    vertical-align: middle;
+}
+.margin {
+  margin: 0 !important;
+}
+</style>
+  
+</head>
+
+<body class="indigo">
+  <div id="login-form" class="row">
+    <div class="col s12 z-depth-6 card">
+       <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4">Best Time to Tweet Demo</span>
+       </div>
+       <div class="card-action">
+            <form id="form">    
+                <div class="row margin">                  
+                    <p class="center login-form-text">Please Enter Your Twitter Username or ID</p>
+                    <p id="error"></p>                  
+                </div>
+                <div class="row margin">
+                  <div class="input-field col s12">
+                    <input id="username" type="text" class="validate">
+                    <label for="username" class="center-align">username</label>
+                  </div>
+                </div>
+                <div class="row margin">
+                  <div class="input-field col s12">
+                    <input id="userid" type="text" class="validate">
+                    <label for="userid" class="center-align">twitterID</label>
+                  </div>
+                </div>                
+                <div class="row">
+                  <div class="input-field col s12">
+                    <button class="btn waves-effect pink waves-light col s12" type="submit" id="form-submit">Submit</button>
+                  </div>
+                </div>               
+            </form>
+            <div class="row margin" id="loading">
+                <div class="col s4 offset-s4">
+                    <div class="preloader-wrapper small active">
+                      <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
+                          <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                          <div class="circle"></div>
+                        </div>
+                      </div>
+
+                      <div class="spinner-layer spinner-red">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
+                          <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                          <div class="circle"></div>
+                        </div>
+                      </div>
+
+                      <div class="spinner-layer spinner-yellow">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
+                          <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                          <div class="circle"></div>
+                        </div>
+                      </div>
+
+                      <div class="spinner-layer spinner-green">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
+                          <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                          <div class="circle"></div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+           <p id="error"></p>
+       </div>
+    </div>
+  </div>
+  <div class="row" id="result">
+    <div class="col s12 z-depth-6">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4">Best Time to Tweet is on:</span>
+        </div>
+        <div class="card-action">
+            <span class="card-title teal-text" id="msg"></span>
+            <div class="row">
+                  <div class="input-field col s4 offset-s4">
+                      <button class="btn waves-effect pink waves-light col s12" onclick="changeView()" id="back-button">Back</button>
+                  </div>
+                </div> 
+          </div>
+      </div>
+    </div>
+  </div>
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <!--materialize js-->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+ <script>
+     function changeView(){
+        $('#loading').hide();
+        $('#login-form').show();
+        $('#result').hide();
+    };
+	$(document).ready(function() { 
+        $('#loading').hide();
+        $('#result').hide();
+        var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        $('#form').submit(function(){
+            $('#loading').show();
+            $('#form-submit').addClass('disabled');
+            var formData = {
+                "data":{
+                    "username":$('#username').val(),
+                    "userid":$('#userid').val(),
+                }
+            };
+            $.ajax({
+                type        : 'POST',
+                url         : 'https://crowdfiretest-somprabhsharma1.c9users.io/getBestTime',
+                data        :  formData,
+                dataType    : 'json',
+                encode      : true
+            }).done(function(data) {
+                $('#loading').hide();
+                $('#login-form').hide();
+                $('#result').show();
+                $('#form-submit').removeClass('disabled');
+                //console.log(data);
+                var bestDay = data.bestDay.maxIndex;
+                var bestTime = data.bestTime.maxIndex;
+                $('#msg').html(days[bestDay]+" and between "+bestTime+":00 to "+(bestTime+1)+":00");
+            }).fail(function(data) {
+                $('#loading').hide();
+                console.log(data);
+                $('#error').html("<b>Some Error Occured. Please try again</b>");
+            });
+            return false;
+        });
+        
+  });
+</script>
+</body>
+
+</html>
